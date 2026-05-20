@@ -3,244 +3,302 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة إدارة ومشاركة الأحداث التنازلية</title>
+    <title>منصة التحديات والأحداث التنازلية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         :root {
-            --bg-color: #0b0f19;
-            --card-bg: #161b26;
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #020617 100%);
+            --panel-bg: rgba(30, 41, 59, 0.7);
+            --card-bg: rgba(15, 23, 42, 0.6);
             --accent-color: #38bdf8;
-            --accent-hover: #0ea5e9;
+            --accent-glow: rgba(56, 189, 248, 0.3);
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
-            --border-color: rgba(255, 255, 255, 0.08);
-            --success: #10b981;
             --danger: #f43f5e;
+            --success: #10b981;
+            --glass-border: rgba(255, 255, 255, 0.05);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Tajawal', sans-serif;
         }
 
         body {
-            background-color: var(--bg-color);
+            background: var(--bg-gradient);
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: flex-start;
-            padding: 40px 20px;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
         }
 
         .app-wrapper {
             width: 100%;
-            max-width: 800px;
+            max-width: 1100px;
             display: grid;
             grid-template-columns: 1fr;
-            gap: 30px;
+            gap: 25px;
         }
 
-        @media (min-width: 768px) {
+        @media (min-width: 992px) {
             .app-wrapper {
-                grid-template-columns: 320px 1fr;
+                grid-template-columns: 360px 1fr;
             }
         }
 
-        /* لوحة التحكم الجانبية */
-        .sidebar {
-            background-color: var(--card-bg);
-            border-radius: 20px;
-            padding: 25px;
-            border: 1px solid var(--border-color);
-            height: fit-content;
+        /* تأثير الزجاج النقي للوحات */
+        .glass-panel {
+            background: var(--panel-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 24px;
+            border: 1px solid var(--glass-border);
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
         }
 
         h2 {
-            font-size: 1.2rem;
+            font-size: 1.25rem;
+            font-weight: 700;
             margin-bottom: 20px;
             color: var(--text-main);
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
+        h2 i { color: var(--accent-color); }
+
+        /* تجميل نماذج الإدخال */
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 18px;
         }
 
         label {
             display: block;
             font-size: 0.85rem;
             color: var(--text-muted);
-            margin-bottom: 6px;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
         }
 
         input {
             width: 100%;
-            background-color: rgba(0, 0, 0, 0.2);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 12px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            padding: 14px 45px 14px 15px;
             color: #fff;
             font-size: 0.95rem;
             outline: none;
-            transition: all 0.3s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         input:focus {
             border-color: var(--accent-color);
+            box-shadow: 0 0 15px var(--accent-glow);
+            background: rgba(15, 23, 42, 0.9);
         }
 
-        button {
+        /* تجميل الأزرار */
+        .btn {
             width: 100%;
-            padding: 12px;
-            border-radius: 10px;
+            padding: 14px;
+            border-radius: 14px;
             border: none;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.2s;
-            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 1rem;
         }
 
         .btn-primary {
-            background-color: var(--accent-color);
-            color: #000;
+            background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+            color: #0f172a;
+            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.2);
         }
 
-        .btn-primary:hover { background-color: var(--accent-hover); }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.4);
+        }
 
-        /* قائمة الأحداث */
+        /* قائمة الأحداث بشكل كروت */
         .events-list {
-            margin-top: 25px;
-            max-height: 250px;
+            margin-top: 20px;
+            max-height: 280px;
             overflow-y: auto;
+            padding-left: 5px;
+        }
+
+        .events-list::-webkit-scrollbar {
+            width: 5px;
+        }
+        .events-list::-webkit-scrollbar-thumb {
+            background: var(--glass-border);
+            border-radius: 10px;
         }
 
         .event-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px;
-            background: rgba(255,255,255,0.03);
-            border-radius: 8px;
-            margin-bottom: 8px;
+            padding: 14px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 14px;
+            margin-bottom: 10px;
             cursor: pointer;
-            border: 1px solid transparent;
+            border: 1px solid var(--glass-border);
+            transition: all 0.2s ease;
         }
 
-        .event-item.active {
-            border-color: var(--accent-color);
+        .event-item:hover, .event-item.active {
             background: rgba(56, 189, 248, 0.08);
+            border-color: rgba(56, 189, 248, 0.3);
         }
 
         .event-item-info {
             overflow: hidden;
-            text-overflow: ellipsis;
             white-space: nowrap;
-            flex-grow: 1;
+            text-overflow: ellipsis;
+            padding-left: 10px;
         }
 
-        .event-item-title { font-size: 0.9rem; font-weight: 500; }
-        .event-item-date { font-size: 0.75rem; color: var(--text-muted); }
+        .event-item-title { font-size: 0.95rem; font-weight: 700; color: #fff; }
+        .event-item-date { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; }
 
-        .item-actions button {
-            width: auto;
-            padding: 4px 8px;
-            font-size: 0.75rem;
-            background: transparent;
-            color: var(--text-muted);
+        .item-actions { display: flex; gap: 8px; }
+        .action-icon {
+            background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 5px; transition: color 0.2s;
         }
-        .item-actions button.del-btn { color: var(--danger); }
-        .item-actions button:hover { text-decoration: underline; }
+        .action-icon.edit:hover { color: var(--accent-color); }
+        .action-icon.delete:hover { color: var(--danger); }
 
-        /* منطقة العرض الرئيسية للعداد */
+        /* العرض الرئيسي المذهل للعداد */
         .main-display {
-            background-color: var(--card-bg);
-            border-radius: 24px;
-            padding: 40px;
-            border: 1px solid var(--border-color);
-            text-align: center;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            min-height: 400px;
+            align-items: center;
+            min-height: 450px;
+            position: relative;
         }
 
         .event-title-view {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-            color: var(--text-main);
+            font-size: 2.2rem;
+            font-weight: 900;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
         .event-date-view {
             font-size: 1rem;
             color: var(--text-muted);
-            margin-bottom: 35px;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        /* مربعات تفاصيل الوقت المتقدمة */
+        /* شبكة مربعات الوقت المتجاوبة والمحمية من التداخل */
         .countdown-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 15px;
-            margin-bottom: 35px;
+            width: 100%;
+            max-width: 650px;
+            margin-bottom: 40px;
         }
 
-        @media (min-width: 480px) {
+        @media (min-width: 576px) {
             .countdown-grid {
                 grid-template-columns: repeat(6, 1fr);
+                gap: 12px;
             }
         }
 
         .time-box {
-            background: rgba(0, 0, 0, 0.25);
-            border: 1px solid var(--border-color);
-            border-radius: 15px;
-            padding: 15px 10px;
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 18px;
+            padding: 18px 10px;
+            box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.02);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s;
         }
+        .time-box:hover { transform: translateY(-3px); }
 
         .time-num {
-            font-size: 2rem;
-            font-weight: 700;
+            font-size: 2.2rem;
+            font-weight: 800;
             color: var(--accent-color);
+            text-shadow: 0 0 12px var(--accent-glow);
             font-variant-numeric: tabular-nums;
+            line-height: 1.2;
         }
 
         .time-label {
             font-size: 0.8rem;
             color: var(--text-muted);
-            margin-top: 5px;
-        }
-
-        .share-section {
-            margin-top: 20px;
+            margin-top: 6px;
+            font-weight: 500;
         }
 
         .btn-share {
-            background-color: transparent;
-            color: var(--accent-color);
-            border: 1px solid var(--accent-color);
-            max-width: 200px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            max-width: 240px;
             margin: 0 auto;
         }
-
         .btn-share:hover {
-            background-color: rgba(56, 189, 248, 0.1);
+            background: var(--accent-color);
+            color: #0f172a;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 15px var(--accent-glow);
         }
 
+        /* التنبيهات */
         .toast {
-            background-color: var(--success);
+            background: var(--success);
             color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
+            padding: 12px 24px;
+            border-radius: 12px;
             position: fixed;
-            bottom: 20px;
+            bottom: 25px;
             left: 50%;
             transform: translateX(-50%) translateY(100px);
-            transition: transform 0.3s;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
             z-index: 1000;
+            font-weight: 700;
         }
         .toast.show { transform: translateX(-50%) translateY(0); }
     </style>
@@ -248,73 +306,74 @@
 <body>
 
     <div class="app-wrapper">
-        <!-- لوحة التحكم وإضافة الأحداث -->
-        <div class="sidebar" id="controlPanel">
-            <h2 id="formTitle">إضافة حدث جديد</h2>
+        <div class="glass-panel" id="controlPanel">
+            <h2 id="formTitle"><i class="fa-regular fa-calendar-plus"></i> إضافة حدث جديد</h2>
             <form id="eventForm">
                 <input type="hidden" id="editIndex" value="">
                 <div class="form-group">
-                    <label for="eventName">اسم الحدث</label>
-                    <input type="text" id="eventName" required placeholder="مثال: عيد الفطر، التخرج...">
+                    <label for="eventName">اسم الحدث التنازلي</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-flag"></i>
+                        <input type="text" id="eventName" required placeholder="مثال: كأس العالم، التخرج...">
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label for="eventDate">التاريخ والوقت</label>
-                    <input type="datetime-local" id="eventDate" required>
+                    <label for="eventDate">التاريخ ووقت البدء</label>
+                    <div class="input-wrapper">
+                        <i class="fa-regular fa-clock"></i>
+                        <input type="datetime-local" id="eventDate" required>
+                    </div>
                 </div>
-                <button type="submit" class="btn-primary" id="submitBtn">حفظ الحدث</button>
-                <button type="button" id="cancelEditBtn" style="display:none; margin-top:5px; background:#475569; color:#fff;">إلغاء التعديل</button>
+                <button type="submit" class="btn btn-primary" id="submitBtn"><i class="fa-solid fa-floppy-disk"></i> حفظ الحدث</button>
+                <button type="button" class="btn" id="cancelEditBtn" style="display:none; margin-top:8px; background:#475569; color:#fff;">إلغاء التعديل</button>
             </form>
 
-            <h2 style="margin-top: 30px;">أحداثي</h2>
+            <h2><i class="fa-solid fa-list-check"></i> قائمة أحداثي</h2>
             <div class="events-list" id="eventsList">
-                <!-- ستظهر الأحداث هنا ديناميكياً -->
-            </div>
+                </div>
         </div>
 
-        <!-- منطقة شاشة العرض الرئيسية للعد التنازلي -->
-        <div class="main-display">
-            <div id="countdownContainer">
-                <div class="event-title-view" id="viewTitle">لا يوجد حدث محدد</div>
-                <div class="event-date-view" id="viewDate">حدد حدثاً من القائمة أو أضف حدثاً جديداً</div>
-                
-                <div class="countdown-grid">
-                    <div class="time-box">
-                        <div class="time-num" id="box-years">00</div>
-                        <div class="time-label">سنة</div>
-                    </div>
-                    <div class="time-box">
-                        <div class="time-num" id="box-months">00</div>
-                        <div class="time-label">شهر</div>
-                    </div>
-                    <div class="time-box">
-                        <div class="time-num" id="box-days">00</div>
-                        <div class="time-label">يوم</div>
-                    </div>
-                    <div class="time-box">
-                        <div class="time-num" id="box-hours">00</div>
-                        <div class="time-label">ساعة</div>
-                    </div>
-                    <div class="time-box">
-                        <div class="time-num" id="box-minutes">00</div>
-                        <div class="time-label">دقيقة</div>
-                    </div>
-                    <div class="time-box">
-                        <div class="time-num" id="box-seconds">00</div>
-                        <div class="time-label">ثانية</div>
-                    </div>
+        <div class="glass-panel main-display">
+            <div class="event-title-view" id="viewTitle">لا يوجد حدث محدد</div>
+            <div class="event-date-view" id="viewDate"><i class="fa-regular fa-calendar"></i> الرجاء اختيار أو إضافة حدث للبدء</div>
+            
+            <div class="countdown-grid">
+                <div class="time-box">
+                    <div class="time-num" id="box-years">00</div>
+                    <div class="time-label">سنة</div>
                 </div>
+                <div class="time-box">
+                    <div class="time-num" id="box-months">00</div>
+                    <div class="time-label">شهر</div>
+                </div>
+                <div class="time-box">
+                    <div class="time-num" id="box-days">00</div>
+                    <div class="time-label">يوم</div>
+                </div>
+                <div class="time-box">
+                    <div class="time-num" id="box-hours">00</div>
+                    <div class="time-label">ساعة</div>
+                </div>
+                <div class="time-box">
+                    <div class="time-num" id="box-minutes">00</div>
+                    <div class="time-label">دقيقة</div>
+                </div>
+                <div class="time-box">
+                    <div class="time-num" id="box-seconds">00</div>
+                    <div class="time-label">ثانية</div>
+                </div>
+            </div>
 
-                <div class="share-section" id="shareSection" style="display: none;">
-                    <button class="btn-share" id="shareBtn">🔗 مشاركة هذا الحدث</button>
-                </div>
+            <div id="shareSection" style="display: none; width:100%; text-align:center;">
+                <button class="btn btn-share" id="shareBtn"><i class="fa-solid fa-share-nodes"></i> مشاركة هذا الحدث</button>
             </div>
         </div>
     </div>
 
-    <div class="toast" id="toast">تم نسخ رابط الحدث بنجاح!</div>
+    <div class="toast" id="toast"><i class="fa-solid fa-circle-check"></i> تم نسخ رابط الحدث بنجاح!</div>
 
     <script>
-        let events = JSON.parse(localStorage.getItem('countdown_events')) || [];
+        let events = JSON.parse(localStorage.getItem('countdown_events_v2')) || [];
         let currentEventIndex = null;
         let tickerInterval;
 
@@ -333,7 +392,6 @@
         const shareBtn = document.getElementById('shareBtn');
         const toast = document.getElementById('toast');
 
-        // عناصر مربعات الوقت
         const bYears = document.getElementById('box-years');
         const bMonths = document.getElementById('box-months');
         const bDays = document.getElementById('box-days');
@@ -341,34 +399,27 @@
         const bMinutes = document.getElementById('box-minutes');
         const bSeconds = document.getElementById('box-seconds');
 
-        // مراجعة الروابط المشتركة أولاً عند التحميل
         function checkSharedLink() {
             const urlParams = new URLSearchParams(window.location.search);
             const sharedTitle = urlParams.get('title');
             const sharedDate = urlParams.get('date');
 
             if (sharedTitle && sharedDate) {
-                // وضع الحدث المشترك كحدث معروض مؤقت
                 const sharedEvent = { title: decodeURIComponent(sharedTitle), date: sharedDate };
                 displayCountdown(sharedEvent);
-                // إخفاء لوحة التحكم للزائر ليركز على العداد التنازلي
                 document.getElementById('controlPanel').style.display = 'none';
-                document.querySelector('.app-wrapper').style.columns = '1fr';
-                document.querySelector('.app-wrapper').style.maxWidth = '600px';
+                document.querySelector('.app-wrapper').style.gridTemplateColumns = '1fr';
+                document.querySelector('.app-wrapper').style.maxWidth = '700px';
             } else {
                 renderEventsList();
-                if (events.length > 0) {
-                    selectEvent(0);
-                }
+                if (events.length > 0) selectEvent(0);
             }
         }
 
-        // حفظ الأحداث في المتصفح المحلي
         function saveToStorage() {
-            localStorage.setItem('countdown_events', JSON.stringify(events));
+            localStorage.setItem('countdown_events_v2', JSON.stringify(events));
         }
 
-        // عرض قائمة الأحداث الجانبية
         function renderEventsList() {
             eventsList.innerHTML = '';
             events.forEach((ev, idx) => {
@@ -385,7 +436,7 @@
 
                 const dateStr = document.createElement('div');
                 dateStr.className = 'event-item-date';
-                dateStr.textContent = new Date(ev.date).toLocaleString('ar-EG');
+                dateStr.innerHTML = `<i class="fa-regular fa-clock"></i> ${new Date(ev.date).toLocaleString('ar-EG')}`;
 
                 info.appendChild(title);
                 info.appendChild(dateStr);
@@ -394,12 +445,13 @@
                 actions.className = 'item-actions';
 
                 const editBtn = document.createElement('button');
-                editBtn.textContent = 'تعديل';
+                editBtn.className = 'action-icon edit';
+                editBtn.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>';
                 editBtn.onclick = (e) => { e.stopPropagation(); startEdit(idx); };
 
                 const delBtn = document.createElement('button');
-                delBtn.className = 'del-btn';
-                delBtn.textContent = 'حذف';
+                delBtn.className = 'action-icon delete';
+                delBtn.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
                 delBtn.onclick = (e) => { e.stopPropagation(); deleteEvent(idx); };
 
                 actions.appendChild(editBtn);
@@ -411,20 +463,18 @@
             });
         }
 
-        // تفعيل حدث معين للعد التنازلي
         function selectEvent(idx) {
             currentEventIndex = idx;
             renderEventsList();
             displayCountdown(events[idx]);
         }
 
-        // معالجة وحساب المتبقي بدقة (سنة، شهر، يوم...)
         function displayCountdown(eventObj) {
             clearInterval(tickerInterval);
             if (!eventObj) return;
 
             viewTitle.textContent = eventObj.title;
-            viewDate.textContent = new Date(eventObj.date).toLocaleString('ar-EG');
+            viewDate.innerHTML = `<i class="fa-regular fa-calendar"></i> المستهدف: ${new Date(eventObj.date).toLocaleString('ar-EG')}`;
             shareSection.style.display = 'block';
 
             function updateTicker() {
@@ -433,18 +483,12 @@
                 let diffMs = target - now;
 
                 if (diffMs <= 0) {
-                    bYears.textContent = "00";
-                    bMonths.textContent = "00";
-                    bDays.textContent = "00";
-                    bHours.textContent = "00";
-                    bMinutes.textContent = "00";
-                    bSeconds.textContent = "00";
-                    viewDate.textContent = "انتهى هذا الحدث! 🎉";
+                    bYears.textContent = bMonths.textContent = bDays.textContent = bHours.textContent = bMinutes.textContent = bSeconds.textContent = "00";
+                    viewDate.innerHTML = "<i class='fa-solid fa-party-horn'></i> انتهى الحدث المكتوب بنجاح! 🎉";
                     clearInterval(tickerInterval);
                     return;
                 }
 
-                // حسابات السنين والشهور الدقيقة بناءً على فروق التواريخ الفورية
                 let years = target.getFullYear() - now.getFullYear();
                 let months = target.getMonth() - now.getMonth();
                 let days = target.getDate() - now.getDate();
@@ -455,14 +499,11 @@
                 if (seconds < 0) { minutes--; seconds += 60; }
                 if (minutes < 0) { hours--; minutes += 60; }
                 if (hours < 0) { days--; hours += 24; }
-                
                 if (days < 0) {
                     months--;
-                    // إيجاد عدد الأيام في الشهر السابق لتعديل الفائض المتبقي
                     const prevMonth = new Date(target.getFullYear(), target.getMonth(), 0);
                     days += prevMonth.getDate();
                 }
-                
                 if (months < 0) { years--; months += 12; }
 
                 bYears.textContent = String(years).padStart(2, '0');
@@ -477,7 +518,6 @@
             tickerInterval = setInterval(updateTicker, 1000);
         }
 
-        // عند الضغط على إرسال (إضافة أو تعديل)
         eventForm.onsubmit = function(e) {
             e.preventDefault();
             const title = eventNameInput.value;
@@ -485,15 +525,13 @@
             const editIdx = editIndexInput.value;
 
             if (editIdx !== "") {
-                // وضع التعديل
                 events[editIdx] = { title, date };
-                formTitle.textContent = "إضافة حدث جديد";
-                submitBtn.textContent = "حفظ الحدث";
+                formTitle.innerHTML = '<i class="fa-regular fa-calendar-plus"></i> إضافة حدث جديد';
+                submitBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> حفظ الحدث';
                 cancelEditBtn.style.display = 'none';
                 editIndexInput.value = "";
                 currentEventIndex = parseInt(editIdx);
             } else {
-                // وضع الإضافة
                 events.push({ title, date });
                 currentEventIndex = events.length - 1;
             }
@@ -504,36 +542,33 @@
             selectEvent(currentEventIndex);
         };
 
-        // الدخول في وضع التعديل
         function startEdit(idx) {
             const ev = events[idx];
             eventNameInput.value = ev.title;
             eventDateInput.value = ev.date;
             editIndexInput.value = idx;
-            formTitle.textContent = "تعديل الحدث الحالي";
-            submitBtn.textContent = "تحديث التغييرات";
+            formTitle.innerHTML = '<i class="fa-solid fa-pen-to-square"></i> تعديل الحدث الحالي';
+            submitBtn.innerHTML = '<i class="fa-solid fa-rotate"></i> تحديث البيانات';
             cancelEditBtn.style.display = 'block';
         }
 
         cancelEditBtn.onclick = function() {
             eventForm.reset();
             editIndexInput.value = "";
-            formTitle.textContent = "إضافة حدث جديد";
-            submitBtn.textContent = "حفظ الحدث";
+            formTitle.innerHTML = '<i class="fa-regular fa-calendar-plus"></i> إضافة حدث جديد';
+            submitBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> حفظ الحدث';
             cancelEditBtn.style.display = 'none';
         };
 
-        // حذف حدث
         function deleteEvent(idx) {
-            if(confirm("هل أنت متأكد من حذف هذا الحدث؟")) {
+            if(confirm("هل تريد بالتأكيد حذف هذا الحدث من قائمتك؟")) {
                 events.splice(idx, 1);
                 saveToStorage();
-                
                 if (events.length === 0) {
                     currentEventIndex = null;
                     clearInterval(tickerInterval);
                     viewTitle.textContent = "لا يوجد حدث محدد";
-                    viewDate.textContent = "حدد حدثاً من القائمة أو أضف حدثاً جديداً";
+                    viewDate.innerHTML = "<i class='fa-regular fa-calendar'></i> الرجاء اختيار أو إضافة حدث للبدء";
                     shareSection.style.display = 'none';
                     bYears.textContent = bMonths.textContent = bDays.textContent = bHours.textContent = bMinutes.textContent = bSeconds.textContent = "00";
                 } else {
@@ -543,30 +578,21 @@
             }
         }
 
-        // مشاركة الحدث المختار عبر رابط ذكي
         shareBtn.onclick = function() {
-            let activeEvent;
-            if (document.getElementById('controlPanel').style.display === 'none') {
-                // إذا كان مستخدماً للرابط المشترك أصلاً
-                const urlParams = new URLSearchParams(window.location.search);
-                activeEvent = { title: urlParams.get('title'), date: urlParams.get('date') };
-            } else {
-                activeEvent = events[currentEventIndex];
-            }
+            let activeEvent = (document.getElementById('controlPanel').style.display === 'none') ? 
+                { title: new URLSearchParams(window.location.search).get('title'), date: new URLSearchParams(window.location.search).get('date') } : events[currentEventIndex];
 
             if (!activeEvent) return;
 
             const baseUrl = window.location.origin + window.location.pathname;
             const shareUrl = `${baseUrl}?title=${encodeURIComponent(activeEvent.title)}&date=${activeEvent.date}`;
 
-            // نسخ الرابط للحافظة كليببورد
             navigator.clipboard.writeText(shareUrl).then(() => {
                 toast.classList.add('show');
                 setTimeout(() => toast.classList.remove('show'), 3000);
             });
         };
 
-        // بدء فحص المدخلات والروابط
         checkSharedLink();
     </script>
 </body>
